@@ -21,30 +21,28 @@ Both the AI Agent Skill and Python SDK enforce the following rules:
 
 ---
 
-## 📁 Repository Structure
+## 🔑 Permissions & GCP Setup (One-Time Setup)
 
-```
-.
-├── README.md                                  # Documentation & quickstart guide
-├── demo.sh                                    # Bash CLI execution script
-├── docs/
-│   └── skills.md                              # Skills reference
-├── skills/
-│   ├── customer-spreadsheet-editor/           # Agent skill (rules & matching logic)
-│   │   └── SKILL.md
-│   └── gws-sheets/                            # Google Sheets tool definition
-│       └── SKILL.md
-└── src/
-    └── spreadsheet_editor.py                  # Python implementation & CLI
-```
+To allow the CLI or AI agent to interact with Google Sheets, your Google Cloud environment requires the following standard setup:
+
+1. **Google Cloud Project**:
+   - Enable the **Google Sheets API** and **Google Drive API** in your GCP project.
+2. **OAuth Consent Screen & Credentials**:
+   - In GCP Console $\rightarrow$ **APIs & Services** $\rightarrow$ **Credentials**, create an **OAuth 2.0 Client ID** with Application type **Desktop app**.
+   - Download the client secret JSON and place it at:
+     ```bash
+     mkdir -p ~/.config/gws
+     cp <YOUR_DOWNLOADED_SECRET>.json ~/.config/gws/client_secret.json
+     ```
+3. **Google Sheet Permissions**:
+   - The Google account logging in must have **Editor** access to the target Google Sheet.
+   - *(Enterprise Workspace)*: Ensure third-party app access for your OAuth Client ID is marked as **Trusted** in Google Workspace Admin Console (**Security $\rightarrow$ API Controls $\rightarrow$ App Access Control**).
 
 ---
 
 ## 🚀 Quickstart Guide
 
-### 1. Prerequisites
-
-Install the Google Workspace CLI globally:
+### 1. Install Google Workspace CLI
 
 ```bash
 npm install -g @googleworkspace/cli
@@ -55,9 +53,7 @@ Verify installation:
 gws --version
 ```
 
-### 2. Authentication
-
-Authenticate `gws` with your Google account:
+### 2. Authenticate
 
 ```bash
 # Log in with required Google Sheets & Drive scopes
@@ -73,7 +69,7 @@ gws auth status
 
 ## 🐍 Using the Python Implementation
 
-You can run the Python script directly as a CLI tool or import `SpreadsheetEditor` into your Python codebase:
+You can run the Python script directly as a CLI tool or import `SpreadsheetEditor` into your codebase:
 
 ### Run the Full End-to-End Demo
 ```bash
@@ -82,7 +78,6 @@ python3 src/spreadsheet_editor.py --spreadsheet-id <YOUR_SPREADSHEET_ID> --actio
 
 ### Perform an Intelligent Upsert (Update or Append)
 ```bash
-# Updates row in-place if REC-001 exists, or appends if new:
 python3 src/spreadsheet_editor.py \
   --spreadsheet-id <YOUR_SPREADSHEET_ID> \
   --action upsert \
@@ -94,27 +89,6 @@ python3 src/spreadsheet_editor.py \
 ### List Current Recommendations
 ```bash
 python3 src/spreadsheet_editor.py --spreadsheet-id <YOUR_SPREADSHEET_ID> --action list
-```
-
-### Python Code Example
-```python
-from src.spreadsheet_editor import SpreadsheetEditor
-
-editor = SpreadsheetEditor(spreadsheet_id="YOUR_SPREADSHEET_ID")
-
-# Ensure tab exists
-editor.ensure_tab_exists()
-
-# Ingest / update recommendation
-editor.upsert_recommendation(
-    rec_id="REC-001",
-    status="Approved",
-    date="2026-08-19",
-    notes="Reviewed by Sales Ops"
-)
-
-# Print current state
-editor.print_summary_table()
 ```
 
 ---
