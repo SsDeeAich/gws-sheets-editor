@@ -1,0 +1,22 @@
+# Secrets and Credentials
+*.enc
+*.key
+.encryption_key
+*client_secret*.json
+*credentials*.json
+token*.json
+.env
+.env.*
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Internal logs
+*.log
