@@ -1,6 +1,6 @@
 # Google Workspace CLI (`gws`) — Intelligent Spreadsheet Editor POC
 
-This repository contains a Proof of Concept (POC) demonstrating how AI agents can intelligently read, create tabs, append records, and perform in-place row-level updates on existing Google Sheets using the **Google Workspace CLI (`gws`)** and agentic skill definitions.
+This repository contains a POC demonstrating how AI agents can intelligently read, create tabs, append records, and perform in-place row-level updates on existing Google Sheets using the **Google Workspace CLI (`gws`)** and agentic skill definitions.
 
 ---
 
